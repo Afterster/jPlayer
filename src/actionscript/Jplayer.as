@@ -225,7 +225,7 @@ package {
 				ExternalInterface.addCallback("fl_volume", fl_volume);
 				ExternalInterface.addCallback("fl_mute", fl_mute);
 
-				ExternalInterface.call(jQuery, "jPlayerFlashEvent", JplayerEvent.JPLAYER_READY, extractStatusData(commonStatus)); // See JplayerStatus() class for version number.
+				ExternalInterface.call(jQuery, "jPlayerMsgHandler", JplayerEvent.JPLAYER_READY, extractStatusData(commonStatus)); // See JplayerStatus() class for version number.
 			}
 		}
 		private function checkFlashVars(p:Object):void {
@@ -501,7 +501,7 @@ package {
 		private function jPlayerFlashEvent(e:JplayerEvent):void {
 			log("jPlayer Flash Event: " + e.type + ": " + e.target);
 			if(ExternalInterface.available && !securityIssue) {
-				ExternalInterface.call(jQuery, "jPlayerFlashEvent", e.type, extractStatusData(e.data));
+				ExternalInterface.call(jQuery, "jPlayerMsgHandler", e.type, extractStatusData(e.data));
 			}
 		}
 		
@@ -528,7 +528,7 @@ package {
 			log("jPlayerMetaDataHandler:" + e.target);
 			if(ExternalInterface.available && !securityIssue) {
 				resizeHandler(new Event(Event.RESIZE));
-				ExternalInterface.call(jQuery, "jPlayerFlashEvent", e.type, extractStatusData(e.data));
+				ExternalInterface.call(jQuery, "jPlayerMsgHandler", e.type, extractStatusData(e.data));
 			}
 		}
 		private function resizeHandler(e:Event):void {

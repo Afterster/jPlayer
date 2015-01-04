@@ -206,15 +206,17 @@
 		},
 		updateConfig: function() { // This displays information about jPlayer's configuration in inspector
 		
-			var jPlayerInfo = "<p>This jPlayer instance is running in your browser where:<br />"
+			var jPlayerInfo = "<p>This jPlayer instance is running in your browser where:<br />";
 
+            var activeInfo = "";
+            var htmlSolution;
 			for(i = 0; i < $(this).data("jPlayerInspector").jPlayer.data("jPlayer").solutions.length; i++) {
 				var solution = $(this).data("jPlayerInspector").jPlayer.data("jPlayer").solutions[i];
-				jPlayerInfo += "&nbsp;jPlayer's <strong>" + solution + "</strong> solution is";				
-				if($(this).data("jPlayerInspector").jPlayer.data("jPlayer")[solution].used) {
+				jPlayerInfo += "&nbsp;jPlayer's <strong>" + solution.name + "</strong> solution is";				
+				if(solution.used) {
 					jPlayerInfo += " being <strong>used</strong> and will support:<strong>";
-					for(format in $(this).data("jPlayerInspector").jPlayer.data("jPlayer")[solution].support) {
-						if($(this).data("jPlayerInspector").jPlayer.data("jPlayer")[solution].support[format]) {
+					for(format in solution.support) {
+						if(solution.support[format]) {
 							jPlayerInfo += " " + format;
 						}
 					}
@@ -222,23 +224,25 @@
 				} else {
 					jPlayerInfo += " <strong>not required</strong><br />";
 				}
+                
+                if (solution.active) {
+                    if (activeInfo !== "") {
+                        activeInfo = "<strong>Problem with jPlayer since multiple solutions are active.</strong>";
+                    } else {
+                        activeInfo = "The <strong>" + solution.name + " solution is active</strong>.";
+                    }
+                }
+                
+                if (solution.name === "html") {
+                    htmlSolution = solution;
+                }
 			}
 			jPlayerInfo += "</p>";
 
-			if($(this).data("jPlayerInspector").jPlayer.data("jPlayer").html.active) {
-				if($(this).data("jPlayerInspector").jPlayer.data("jPlayer").flash.active) {
-					jPlayerInfo += "<strong>Problem with jPlayer since both HTML5 and Flash are active.</strong>";
-				} else {
-					jPlayerInfo += "The <strong>HTML5 is active</strong>.";
-				}
-			} else {
-				if($(this).data("jPlayerInspector").jPlayer.data("jPlayer").flash.active) {
-					jPlayerInfo += "The <strong>Flash is active</strong>.";
-				} else {
-					jPlayerInfo += "No solution is currently active. jPlayer needs a setMedia().";
-				}
-			}
-			jPlayerInfo += "</p>";
+            if (activeInfo === "") {
+                activeInfo = "No solution is currently active. jPlayer needs a setMedia().";
+            }
+            jPlayerInfo += "<p>" + activeInfo + "</p>";
 
 			var formatType = $(this).data("jPlayerInspector").jPlayer.data("jPlayer").status.formatType;
 			jPlayerInfo += "<p><code>status.formatType = '" + formatType + "'</code><br />";
@@ -254,7 +258,7 @@
 			for(prop in $(this).data("jPlayerInspector").jPlayer.data("jPlayer").status.media) {
 				jPlayerInfo += "&nbsp;" + prop + ": " + $(this).data("jPlayerInspector").jPlayer.data("jPlayer").status.media[prop] + "<br />"; // Some are strings
 			}
-			jPlayerInfo += "};</code></p>"
+			jPlayerInfo += "};</code></p>";
 
 			jPlayerInfo += "<p>";
 			jPlayerInfo += "<code>status.videoWidth = '" + $(this).data("jPlayerInspector").jPlayer.data("jPlayer").status.videoWidth + "'</code>";
@@ -263,14 +267,17 @@
 			jPlayerInfo += " | <code>status.height = '" + $(this).data("jPlayerInspector").jPlayer.data("jPlayer").status.height + "'</code>";
 			jPlayerInfo += "</p>";
 
-			+ "<p>Raw browser test for HTML5 support. Should equal a function if HTML5 is available.<br />";
-			if($(this).data("jPlayerInspector").jPlayer.data("jPlayer").html.audio.available) {
-				jPlayerInfo += "<code>htmlElement.audio.canPlayType = " + (typeof $(this).data("jPlayerInspector").jPlayer.data("jPlayer").htmlElement.audio.canPlayType) +"</code><br />"
-			}
-			if($(this).data("jPlayerInspector").jPlayer.data("jPlayer").html.video.available) {
-				jPlayerInfo += "<code>htmlElement.video.canPlayType = " + (typeof $(this).data("jPlayerInspector").jPlayer.data("jPlayer").htmlElement.video.canPlayType) +"</code>";
-			}
-			jPlayerInfo += "</p>";
+            if (htmlSolution !== undefined) {
+                jPlayerInfo += "<p>Raw browser test for HTML5 support. Should equal a function if HTML5 is available.<br />";
+                if(htmlSolution.audio.available) {
+                    jPlayerInfo += "<code>htmlElement.audio.canPlayType = " + (typeof htmlSolution.htmlElement.audio.canPlayType) +"</code><br />";
+                }
+                if(htmlSolution.video.available) {
+                    jPlayerInfo += "<code>htmlElement.video.canPlayType = " + (typeof htmlSolution.htmlElement.video.canPlayType) +"</code>";
+                }
+                
+                jPlayerInfo += "</p>";
+            }
 
 			jPlayerInfo += "<p>This instance is using the constructor options:<br />"
 			+ "<code>$('#" + $(this).data("jPlayerInspector").jPlayer.data("jPlayer").internal.self.id + "').jPlayer({<br />"
