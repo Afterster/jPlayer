@@ -1353,7 +1353,7 @@
 			if(this.status.srcSet) {
 				$.each(this.solutions, function(solutionPriority, solution) {
                     if (solution.active) {
-                        solution.pause(0);
+                        solution.stop();
                     }
                 });
 			} else {

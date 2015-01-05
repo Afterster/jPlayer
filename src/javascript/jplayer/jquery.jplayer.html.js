@@ -395,6 +395,9 @@
                 this._checkWaitForPlay();
             }
         },
+        stop: function() {
+            this.pause(0);
+        },
         playHead: function(percent) {
             var self = this,
                 media = this.htmlElement.media;

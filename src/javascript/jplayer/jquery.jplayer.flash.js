@@ -217,6 +217,9 @@
                 this._checkWaitForPlay();
             }
         },
+        stop: function() {
+            this.pause(0);
+        },
         playHead: function(p) {
             try {
                 this._getMovie().fl_play_head(p);

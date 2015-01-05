@@ -126,7 +126,7 @@
         },
         pause: function(time) {
             if (!isNaN(time)) {
-                this.player.seek(time * 1000);
+                this.player.seek(time);
             }
             this.player.pause();
             
@@ -137,6 +137,9 @@
             // No event from the player, update UI now.
             this.jplayer._updateButtons(false);
             this.jplayer._trigger($.jPlayer.event.pause);
+        },
+        stop: function() {
+            this.pause(0);
         },
         playHead: function(percent) {
             if(this.player.duration > 0) {
