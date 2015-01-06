@@ -398,10 +398,10 @@
                             if(this.jplayer.status.video) {
                                 this.internal.flash.jq.css({'width':'0px', 'height':'0px'});
                             }
-                            if(this.jplayer._validString(this.status.media.poster)) {
+                            if(this.jplayer._validString(this.jplayer.status.media.poster)) {
                                 this.jplayer.internal.poster.jq.show();
                             }
-                            if(this.jplayer.css.jq.videoPlay.length && this.status.video) {
+                            if(this.jplayer.css.jq.videoPlay.length && this.jplayer.status.video) {
                                 this.jplayer.css.jq.videoPlay.show();
                             }
                             if(this.jplayer.status.video) { // Set up for another try. Execute before error event.
@@ -459,7 +459,7 @@
                 } else {
                     errorType = "FLASH_DISABLED";
                 }
-                this._error( {
+                this.jplayer._error( {
                     type: $.jPlayer.solutions.flash.error[errorType],
                     context: this.internal.flash.swf,
                     message: $.jPlayer.solutions.flash.errorMsg[errorType] + error.message,

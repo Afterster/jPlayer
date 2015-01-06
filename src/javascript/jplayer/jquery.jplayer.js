@@ -642,6 +642,10 @@
 				codec: 'audio/rtmp; codecs="rtmp"',
 				media: 'audio'
 			},
+            wma: { // WMA
+                codec: 'audio/x-ms-wma',
+                media: 'audio'
+            },
 			m4v: { // H.264 / MP4
 				codec: 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
 				media: 'video'
@@ -669,7 +673,11 @@
 			rtmpv: { // RTMP VIDEO
 				codec: 'video/rtmp; codecs="rtmp"',
 				media: 'video'
-			}
+			},
+            wmv: { // WMV
+                codec: 'video/x-ms-wmv',
+                media: 'video'
+            }
 		},
 		_init: function() {
 			var self = this;
